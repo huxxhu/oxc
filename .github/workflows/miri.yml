@@ -51,5 +51,5 @@ jobs:
 
       - name: Test with Miri
         run: |
-          cargo miri test --doc --all-features -p oxc_ast -p oxc_data_structures
+          cargo miri test --all-features -p oxc_ast -p oxc_data_structures
           cargo miri test -p oxc_parser -p oxc_transformer
