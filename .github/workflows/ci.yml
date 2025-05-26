@@ -14,6 +14,7 @@ on:
   push:
     branches:
       - main
+      - 05-26-chore_ci_use_a_warmup_cache_for_pnpm
     paths-ignore:
       - "**/*.md"
       - "**/*.yml"
