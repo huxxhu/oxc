@@ -24,7 +24,7 @@ importers:
         specifier: 'catalog:'
         version: 3.0.0-alpha.88(@emnapi/runtime@1.4.3)(@types/node@22.15.31)(emnapi@1.4.3)
       '@typescript-eslint/visitor-keys':
-        specifier: ^8.34.0
+        specifier: ^8.34.1
         version: 8.34.1
       emnapi:
         specifier: 1.4.3

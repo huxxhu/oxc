@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@napi-rs/cli": "catalog:",
-    "@typescript-eslint/visitor-keys": "^8.34.0",
+    "@typescript-eslint/visitor-keys": "^8.34.1",
     "emnapi": "1.4.3",
     "typescript": "catalog:",
     "vitest": "catalog:"
