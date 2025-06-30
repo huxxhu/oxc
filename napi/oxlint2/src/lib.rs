@@ -1,10 +1,10 @@
-use std::process::{ExitCode, Termination};
+use oxlint::lint as oxlint_lint;
+pub use oxlint::{ExternalLinter, ExternalLinterCb, ExternalLinterLoadPluginCb};
 
 use napi_derive::napi;
-
-use oxlint::lint as oxlint_lint;
+use std::process::{ExitCode, Termination};
 
 #[napi]
-pub fn lint() -> bool {
-    oxlint_lint().report() == ExitCode::SUCCESS
+pub fn lint(run: ExternalLinterCb, load_plugin: ExternalLinterLoadPluginCb) -> bool {
+    oxlint_lint(Some(ExternalLinter::new(run, load_plugin))).report() == ExitCode::SUCCESS
 }

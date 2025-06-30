@@ -8,6 +8,7 @@ mod ast_util;
 mod config;
 mod context;
 mod disable_directives;
+mod external_linter;
 mod fixer;
 mod frameworks;
 mod globals;
@@ -32,6 +33,9 @@ pub use crate::{
         Oxlintrc,
     },
     context::LintContext,
+    external_linter::{
+        ExternalLinter, ExternalLinterCb, ExternalLinterLoadPluginCb, PluginLoadResult,
+    },
     fixer::FixKind,
     frameworks::FrameworkFlags,
     loader::LINTABLE_EXTENSIONS,
@@ -66,7 +70,6 @@ fn size_asserts() {
 #[derive(Debug, Clone)]
 pub struct Linter {
     options: LintOptions,
-    // config: Arc<LintConfig>,
     config: ConfigStore,
 }
 
@@ -184,6 +187,8 @@ impl Linter {
                 }
             }
         }
+
+        // TODO(camc314): call into external linter (JS side) and run the JS rules.
 
         if let Some(severity) = self.options.report_unused_directive {
             if severity.is_warn_deny() {

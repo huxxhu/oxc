@@ -140,7 +140,7 @@ oxc_tasks_transform_checker = { path = "tasks/transform_checker" }
 oxlint = { path = "apps/oxlint" }
 
 # Relaxed version so the user can decide which version to use.
-napi = "3.0.0-beta"
+napi = { version = "3.0.0-beta", features = ["tokio_rt"] }
 napi-build = "2.2.1"
 napi-derive = "3.0.0-beta"
 
@@ -235,7 +235,13 @@ ureq = { version = "3.0.11", default-features = false }
 walkdir = "2.5.0"
 
 [workspace.metadata.cargo-shear]
-ignored = ["napi", "oxc_transform_napi", "oxc_parser_napi", "prettyplease", "lazy_static"]
+ignored = [
+  "napi",
+  "oxc_transform_napi",
+  "oxc_parser_napi",
+  "prettyplease",
+  "lazy_static",
+]
 
 [profile.dev]
 # Disabling debug info speeds up local and CI builds,
