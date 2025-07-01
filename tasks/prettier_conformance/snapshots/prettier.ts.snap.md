@@ -61,7 +61,7 @@ ts compatibility: 219/573 (38.22%)
 | typescript/arrow/16067.ts | 💥💥 | 65.31% |
 | typescript/arrow/comments.ts | 💥✨ | 44.44% |
 | typescript/as/array-pattern.ts | 💥 | 0.00% |
-| typescript/as/as.ts | 💥 | 59.84% |
+| typescript/as/as.ts | 💥 | 64.57% |
 | typescript/as/assignment2.ts | 💥 | 91.18% |
 | typescript/as/export_default_as.ts | 💥 | 0.00% |
 | typescript/as/expression-statement.ts | 💥 | 50.00% |
@@ -231,7 +231,7 @@ ts compatibility: 219/573 (38.22%)
 | typescript/functional-composition/pipe-function-calls.ts | 💥 | 41.67% |
 | typescript/generic/arrow-return-type.ts | 💥 | 80.77% |
 | typescript/generic/issue-6899.ts | 💥 | 21.05% |
-| typescript/generic/object-method.ts | 💥 | 36.36% |
+| typescript/generic/object-method.ts | 💥 | 72.73% |
 | typescript/generic/ungrouped-parameters.ts | 💥 | 45.45% |
 | typescript/import-export/type-modifier.ts | 💥 | 66.67% |
 | typescript/import-type/import-type.ts | 💥💥 | 93.33% |
@@ -275,7 +275,7 @@ ts compatibility: 219/573 (38.22%)
 | typescript/new/new-signature.ts | 💥 | 93.85% |
 | typescript/no-semi/no-semi.ts | 💥✨ | 45.45% |
 | typescript/no-semi/non-null.ts | 💥💥 | 66.67% |
-| typescript/non-null/braces.ts | 💥 | 70.59% |
+| typescript/non-null/braces.ts | 💥 | 82.35% |
 | typescript/non-null/optional-chain.ts | 💥 | 72.22% |
 | typescript/non-null/parens.ts | 💥 | 80.00% |
 | typescript/nosemi/index-signature.ts | 💥 | 75.00% |
@@ -305,7 +305,7 @@ ts compatibility: 219/573 (38.22%)
 | typescript/satisfies-operators/lhs.ts | 💥✨ | 30.00% |
 | typescript/satisfies-operators/nested-await-and-satisfies.ts | 💥💥 | 16.67% |
 | typescript/satisfies-operators/non-null.ts | 💥💥 | 66.67% |
-| typescript/satisfies-operators/satisfies.ts | 💥💥 | 61.36% |
+| typescript/satisfies-operators/satisfies.ts | 💥💥 | 68.18% |
 | typescript/satisfies-operators/template-literal.ts | 💥💥 | 14.29% |
 | typescript/satisfies-operators/ternary.ts | 💥💥 | 45.00% |
 | typescript/satisfies-operators/types-comments.ts | 💥✨ | 33.33% |

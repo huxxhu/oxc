@@ -114,7 +114,11 @@ impl<'a> NeedsParentheses<'a> for AstNode<'a, ObjectExpression<'a>> {
     fn needs_parentheses(&self, f: &Formatter<'_, 'a>) -> bool {
         let parent = self.parent;
         is_class_extends(parent, self.span())
-            || is_first_in_statement(parent, FirstInStatementMode::ExpressionStatementOrArrow)
+            || is_first_in_statement(
+                self.span,
+                parent,
+                FirstInStatementMode::ExpressionStatementOrArrow,
+            )
     }
 }
 
@@ -258,7 +262,11 @@ impl<'a> NeedsParentheses<'a> for AstNode<'a, Function<'a>> {
         matches!(
             parent,
             AstNodes::CallExpression(_) | AstNodes::NewExpression(_) | AstNodes::TemplateLiteral(_)
-        ) || is_first_in_statement(parent, FirstInStatementMode::ExpressionOrExportDefault)
+        ) || is_first_in_statement(
+            self.span,
+            parent,
+            FirstInStatementMode::ExpressionOrExportDefault,
+        )
     }
 }
 
@@ -273,6 +281,7 @@ impl<'a> NeedsParentheses<'a> for AstNode<'a, AssignmentExpression<'a>> {
                     matches!(parent_parent_parent, AstNodes::ArrowFunctionExpression(arrow) if arrow.expression())
                 } else {
                     is_first_in_statement(
+                        self.span,
                         self.parent,
                         FirstInStatementMode::ExpressionStatementOrArrow,
                     ) && matches!(self.left, AssignmentTarget::ObjectAssignmentTarget(_))
@@ -319,7 +328,11 @@ impl<'a> NeedsParentheses<'a> for AstNode<'a, Class<'a>> {
             | AstNodes::NewExpression(_)
             | AstNodes::ExportDefaultDeclaration(_) => true,
             parent if is_class_extends(parent, self.span()) => true,
-            _ => is_first_in_statement(parent, FirstInStatementMode::ExpressionOrExportDefault),
+            _ => is_first_in_statement(
+                self.span,
+                parent,
+                FirstInStatementMode::ExpressionOrExportDefault,
+            ),
         }
     }
 }
@@ -547,7 +560,7 @@ fn update_or_lower_expression_needs_parens(span: Span, parent: &AstNodes<'_>) ->
     false
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum FirstInStatementMode {
     /// Considers [ExpressionStatement] and the body of [ArrowFunctionExpression] as the first statement.
     ExpressionStatementOrArrow,
@@ -559,19 +572,78 @@ pub enum FirstInStatementMode {
 ///
 /// Traverses upwards the tree for as long as the `node` is the left most expression until the node isn't
 /// the left most node or reached a statement.
-fn is_first_in_statement(parent: &AstNodes<'_>, mode: FirstInStatementMode) -> bool {
-    // TODO: incomplete
-    // https://github.com/biomejs/biome/blob/4a5ef84930344ae54f3877da36888a954711f4a6/crates/biome_js_syntax/src/parentheses/expression.rs#L979-L1105
+fn is_first_in_statement(
+    current_span: Span,
+    parent: &AstNodes<'_>,
+    mode: FirstInStatementMode,
+) -> bool {
+    let mut current = parent;
+    let mut is_not_first_iteration = false;
+    loop {
+        match current {
+            AstNodes::ExpressionStatement(stmt) => {
+                if matches!(stmt.parent.parent(), AstNodes::ArrowFunctionExpression(arrow) if arrow.expression)
+                {
+                    if mode == FirstInStatementMode::ExpressionStatementOrArrow {
+                        if is_not_first_iteration
+                            && matches!(
+                                stmt.expression,
+                                Expression::SequenceExpression(_)
+                                    | Expression::AssignmentExpression(_)
+                                    | Expression::ComputedMemberExpression(_)
+                                    | Expression::StaticMemberExpression(_)
+                            )
+                        {
+                            break;
+                        }
+                    } else {
+                        return false;
+                    }
+                }
 
-    if let AstNodes::ExpressionStatement(parent) = parent {
-        let parent_parent = parent.parent;
-        if let AstNodes::FunctionBody(body) = parent_parent {
-            let parent_parent_parent = body.parent;
-            return !matches!(parent_parent_parent, AstNodes::ArrowFunctionExpression(arrow) if arrow.expression());
+                return true;
+            }
+            AstNodes::StaticMemberExpression(_)
+            | AstNodes::TemplateLiteral(_)
+            | AstNodes::CallExpression(_)
+            | AstNodes::NewExpression(_)
+            | AstNodes::TSAsExpression(_)
+            | AstNodes::TSSatisfiesExpression(_)
+            | AstNodes::TSNonNullExpression(_) => {}
+            AstNodes::SequenceExpression(sequence)
+                if sequence.expressions.first().unwrap().span() != current_span =>
+            {
+                break;
+            }
+            AstNodes::ComputedMemberExpression(member) if member.object.span() != current_span => {
+                break;
+            }
+            AstNodes::AssignmentExpression(assignment)
+                if assignment.left.span() != current_span =>
+            {
+                break;
+            }
+            AstNodes::ConditionalExpression(conditional)
+                if conditional.test.span() != current_span =>
+            {
+                break;
+            }
+            AstNodes::BinaryExpression(binary) if binary.left.span() != current.span() => {
+                break;
+            }
+            AstNodes::BinaryExpression(binary) if binary.left.span() != current.span() => break,
+            AstNodes::ExportDefaultDeclaration(_)
+                if mode == FirstInStatementMode::ExpressionOrExportDefault =>
+            {
+                return !is_not_first_iteration;
+            }
+            _ => break,
         }
-        return true;
+        current = current.parent();
+        is_not_first_iteration = true;
     }
-    matches!(parent, AstNodes::ExportDefaultDeclaration(_))
+
+    false
 }
 
 fn await_or_yield_needs_parens(span: Span, node: &AstNodes<'_>) -> bool {

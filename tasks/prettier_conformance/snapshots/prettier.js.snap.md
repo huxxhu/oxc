@@ -1,4 +1,4 @@
-js compatibility: 370/699 (52.93%)
+js compatibility: 372/699 (53.22%)
 
 # Failed
 
@@ -6,10 +6,10 @@ js compatibility: 370/699 (52.93%)
 | :-------- | :--------------: | :---------: |
 | js/arrays/preserve_empty_lines.js | 💥 | 97.30% |
 | js/arrow-call/arrow_call.js | 💥💥💥 | 94.85% |
-| js/arrows/arrow_function_expression.js | 💥💥 | 48.57% |
+| js/arrows/arrow_function_expression.js | 💥💥 | 60.00% |
 | js/arrows/call.js | 💥💥 | 75.68% |
 | js/arrows/comment.js | 💥💥 | 60.87% |
-| js/arrows/curried.js | 💥💥 | 84.65% |
+| js/arrows/curried.js | 💥💥 | 92.55% |
 | js/arrows/currying-4.js | 💥💥 | 86.67% |
 | js/arrows/issue-1389-curry.js | 💥💥 | 86.96% |
 | js/arrows/parens.js | 💥💥 | 93.10% |
@@ -56,7 +56,7 @@ js compatibility: 370/699 (52.93%)
 | js/class-static-block/with-line-breaks.js | 💥 | 50.00% |
 | js/classes/assignment.js | 💥 | 81.25% |
 | js/classes/binary.js | 💥 | 0.00% |
-| js/classes/member.js | 💥 | 0.00% |
+| js/classes/member.js | 💥 | 50.00% |
 | js/classes/method.js | 💥 | 71.43% |
 | js/classes/property.js | 💥 | 54.55% |
 | js/classes/ternary.js | 💥 | 0.00% |
@@ -122,7 +122,7 @@ js compatibility: 370/699 (52.93%)
 | js/decorators/multiline.js | 💥 | 44.44% |
 | js/decorators/multiple.js | 💥 | 61.54% |
 | js/decorators/parens.js | 💥 | 75.00% |
-| js/decorators/redux.js | 💥 | 66.67% |
+| js/decorators/redux.js | 💥 | 88.89% |
 | js/decorators/class-expression/class-expression.js | 💥💥 | 55.56% |
 | js/decorators/class-expression/member-expression.js | 💥💥 | 0.00% |
 | js/decorators/class-expression/super-class.js | 💥💥 | 14.29% |
@@ -148,13 +148,12 @@ js compatibility: 370/699 (52.93%)
 | js/for/in.js | 💥 | 50.00% |
 | js/for/parentheses.js | 💥 | 72.00% |
 | js/for-of/async-identifier.js | 💥 | 90.00% |
-| js/function/function_expression.js | 💥 | 63.64% |
+| js/function/function_expression.js | 💥 | 72.73% |
 | js/function-comments/params-trail-comments.js | 💥 | 82.61% |
 | js/function-single-destructuring/array.js | 💥 | 35.42% |
 | js/functional-composition/functional_compose.js | 💥 | 93.20% |
 | js/functional-composition/pipe-function-calls-with-comments.js | 💥 | 77.08% |
 | js/functional-composition/pipe-function-calls.js | 💥 | 61.11% |
-| js/functional-composition/ramda_compose.js | 💥 | 95.74% |
 | js/functional-composition/rxjs_pipe.js | 💥 | 45.45% |
 | js/generator/anonymous.js | 💥 | 91.43% |
 | js/identifier/for-of/await.js | 💥 | 33.33% |
@@ -183,7 +182,7 @@ js compatibility: 370/699 (52.93%)
 | js/last-argument-expansion/issue-10708.js | 💥 | 0.00% |
 | js/last-argument-expansion/issue-7518.js | 💥 | 85.71% |
 | js/last-argument-expansion/jsx.js | 💥 | 25.00% |
-| js/last-argument-expansion/object.js | 💥 | 78.95% |
+| js/last-argument-expansion/object.js | 💥 | 94.74% |
 | js/last-argument-expansion/overflow.js | 💥 | 71.22% |
 | js/line-suffix-boundary/boundary.js | 💥 | 30.43% |
 | js/logical_expressions/issue-7024.js | 💥 | 66.67% |
@@ -208,7 +207,7 @@ js compatibility: 370/699 (52.93%)
 | js/method-chain/pr-7889.js | 💥 | 33.33% |
 | js/method-chain/short-names.js | 💥 | 0.00% |
 | js/method-chain/square_0.js | 💥 | 13.33% |
-| js/method-chain/test.js | 💥 | 18.18% |
+| js/method-chain/test.js | 💥 | 54.55% |
 | js/method-chain/this.js | 💥 | 0.00% |
 | js/new-expression/new_expression.js | 💥 | 55.56% |
 | js/newline/backslash_2028.js | 💥 | 50.00% |
@@ -216,16 +215,16 @@ js compatibility: 370/699 (52.93%)
 | js/no-semi/class.js | 💥✨ | 46.55% |
 | js/no-semi/comments.js | 💥✨ | 36.36% |
 | js/no-semi/issue2006.js | 💥✨ | 37.50% |
-| js/no-semi/no-semi.js | 💥💥 | 89.56% |
+| js/no-semi/no-semi.js | 💥💥 | 90.66% |
 | js/object-colon-bug/bug.js | 💥 | 60.00% |
 | js/object-multiline/multiline.js | 💥✨ | 22.22% |
 | js/object-prop-break-in/short-keys.js | 💥 | 63.41% |
 | js/object-prop-break-in/test.js | 💥 | 88.57% |
 | js/object-property-comment/after-key.js | 💥 | 85.71% |
 | js/object-property-ignore/ignore.js | 💥💥💥 | 84.78% |
-| js/object-property-ignore/issue-5678.js | 💥💥💥 | 47.50% |
+| js/object-property-ignore/issue-5678.js | 💥💥💥 | 52.50% |
 | js/objects/right-break.js | 💥 | 70.27% |
-| js/objects/assignment-expression/object-value.js | 💥 | 71.43% |
+| js/objects/assignment-expression/object-value.js | 💥 | 85.71% |
 | js/optional-chaining/chaining.js | 💥 | 59.77% |
 | js/optional-chaining/comments.js | 💥 | 16.90% |
 | js/preserve-line/argument-list.js | 💥 | 99.44% |
@@ -241,7 +240,6 @@ js compatibility: 370/699 (52.93%)
 | js/return-outside-function/return-outside-function.js | 💥 | 0.00% |
 | js/sequence-break/break.js | 💥 | 38.53% |
 | js/sequence-expression/ignore.js | 💥 | 42.86% |
-| js/spread/spread.js | 💥 | 80.00% |
 | js/strings/escaped.js | 💥💥 | 73.68% |
 | js/strings/template-literals.js | 💥💥 | 52.24% |
 | js/switch/comments.js | 💥 | 90.37% |
