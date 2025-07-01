@@ -231,6 +231,7 @@ impl<'a> Format<'a> for FormatTrailingComments<'a, '_> {
 
                 let Some(following_node) = following_node else {
                     let enclosing_span = enclosing_node.span();
+                    // TODO:
                     let trailing_comments = comments
                         .iter()
                         .take_while(|comment| comment.span.end <= enclosing_span.end);

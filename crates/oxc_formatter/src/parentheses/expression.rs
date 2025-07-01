@@ -11,7 +11,7 @@ use crate::{
     Format,
     formatter::Formatter,
     generated::ast_nodes::{AstNode, AstNodes},
-    write::{BinaryLikeExpression, should_flatten},
+    write::{BinaryLikeExpression, arrow_function_expression::ExpressionLeftSide, should_flatten},
 };
 
 use super::NeedsParentheses;
@@ -154,8 +154,21 @@ impl<'a> NeedsParentheses<'a> for AstNode<'a, PrivateFieldExpression<'a>> {
 
 impl<'a> NeedsParentheses<'a> for AstNode<'a, CallExpression<'a>> {
     fn needs_parentheses(&self, f: &Formatter<'_, 'a>) -> bool {
-        // TODO
-        matches!(self.parent, AstNodes::NewExpression(_) | AstNodes::ExportDefaultDeclaration(_))
+        matches!(self.parent, AstNodes::NewExpression(_))
+            || matches!(self.parent, AstNodes::ExportDefaultDeclaration(_)) && {
+                let callee = &self.callee;
+                let callee_span = callee.span();
+                let leftmost = ExpressionLeftSide::leftmost(callee);
+                // require parens for iife and
+                // when the leftmost expression is not a class expression or a function expression
+                callee_span != leftmost.span()
+                    && matches!(
+                        leftmost,
+                        ExpressionLeftSide::Expression(
+                            Expression::ClassExpression(_) | Expression::FunctionExpression(_)
+                        )
+                    )
+            }
     }
 }
 
@@ -543,13 +556,14 @@ fn unary_like_expression_needs_parens(node: UnaryLike<'_, '_>) -> bool {
 fn update_or_lower_expression_needs_parens(span: Span, parent: &AstNodes<'_>) -> bool {
     if matches!(
         parent,
-        // JsSyntaxKind::JS_EXTENDS_CLAUSE
-        // | JsSyntaxKind::JS_TEMPLATE_EXPRESSION
         AstNodes::TSNonNullExpression(_)
             | AstNodes::CallExpression(_)
             | AstNodes::NewExpression(_)
             | AstNodes::StaticMemberExpression(_)
-    ) {
+            | AstNodes::TemplateLiteral(_)
+            | AstNodes::TaggedTemplateExpression(_)
+    ) || is_class_extends(parent, span)
+    {
         return true;
     }
 
@@ -573,14 +587,13 @@ pub enum FirstInStatementMode {
 /// Traverses upwards the tree for as long as the `node` is the left most expression until the node isn't
 /// the left most node or reached a statement.
 fn is_first_in_statement(
-    current_span: Span,
-    parent: &AstNodes<'_>,
+    mut current_span: Span,
+    mut parent: &AstNodes<'_>,
     mode: FirstInStatementMode,
 ) -> bool {
-    let mut current = parent;
     let mut is_not_first_iteration = false;
     loop {
-        match current {
+        match parent {
             AstNodes::ExpressionStatement(stmt) => {
                 if matches!(stmt.parent.parent(), AstNodes::ArrowFunctionExpression(arrow) if arrow.expression)
                 {
@@ -590,10 +603,10 @@ fn is_first_in_statement(
                                 stmt.expression,
                                 Expression::SequenceExpression(_)
                                     | Expression::AssignmentExpression(_)
-                                    | Expression::ComputedMemberExpression(_)
-                                    | Expression::StaticMemberExpression(_)
                             )
                         {
+                            // The original node doesn't need parens,
+                            // because an ancestor requires parens.
                             break;
                         }
                     } else {
@@ -605,6 +618,7 @@ fn is_first_in_statement(
             }
             AstNodes::StaticMemberExpression(_)
             | AstNodes::TemplateLiteral(_)
+            | AstNodes::TaggedTemplateExpression(_)
             | AstNodes::CallExpression(_)
             | AstNodes::NewExpression(_)
             | AstNodes::TSAsExpression(_)
@@ -631,12 +645,12 @@ fn is_first_in_statement(
                 }
             }
             AstNodes::BinaryExpression(binary) => {
-                if binary.left.span() != current.span() {
+                if binary.left.span() != current_span {
                     break;
                 }
             }
             AstNodes::LogicalExpression(logical) => {
-                if logical.left.span() != current.span() {
+                if logical.left.span() != current_span {
                     break;
                 }
             }
@@ -647,7 +661,8 @@ fn is_first_in_statement(
             }
             _ => break,
         }
-        current = current.parent();
+        current_span = parent.span();
+        parent = parent.parent();
         is_not_first_iteration = true;
     }
 

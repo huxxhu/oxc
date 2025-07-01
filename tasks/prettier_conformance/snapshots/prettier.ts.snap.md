@@ -275,7 +275,6 @@ ts compatibility: 219/573 (38.22%)
 | typescript/new/new-signature.ts | 💥 | 93.85% |
 | typescript/no-semi/no-semi.ts | 💥✨ | 45.45% |
 | typescript/no-semi/non-null.ts | 💥💥 | 66.67% |
-| typescript/non-null/braces.ts | 💥 | 94.12% |
 | typescript/non-null/optional-chain.ts | 💥 | 72.22% |
 | typescript/non-null/parens.ts | 💥 | 80.00% |
 | typescript/nosemi/index-signature.ts | 💥 | 75.00% |
@@ -345,6 +344,7 @@ ts compatibility: 219/573 (38.22%)
 | typescript/typeparams/line-breaking-after-extends-2.ts | 💥 | 23.26% |
 | typescript/typeparams/line-breaking-after-extends.ts | 💥 | 17.14% |
 | typescript/typeparams/long-function-arg.ts | 💥 | 66.67% |
+| typescript/typeparams/tagged-template-expression.ts | 💥 | 75.00% |
 | typescript/typeparams/empty-parameters-with-arrow-function/issue-13817.ts | 💥 | 66.67% |
 | typescript/typeparams/print-width-120/issue-7542.tsx | 💥 | 80.00% |
 | typescript/typeparams/trailing-comma/type-paramters.ts | 💥💥💥 | 28.57% |

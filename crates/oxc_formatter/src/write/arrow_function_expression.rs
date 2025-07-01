@@ -1,4 +1,5 @@
 use oxc_ast::ast::*;
+use oxc_span::GetSpan;
 
 use crate::{
     format_args,
@@ -670,7 +671,7 @@ impl<'a> Format<'a> for ArrowChain<'a, '_> {
     }
 }
 
-enum ExpressionLeftSide<'a, 'b> {
+pub enum ExpressionLeftSide<'a, 'b> {
     Expression(&'b Expression<'a>),
     AssignmentTarget(&'b AssignmentTarget<'a>),
     SimpleAssignmentTarget(&'b SimpleAssignmentTarget<'a>),
@@ -695,7 +696,7 @@ impl<'a, 'b> From<&'b SimpleAssignmentTarget<'a>> for ExpressionLeftSide<'a, 'b>
 }
 
 impl<'a, 'b> ExpressionLeftSide<'a, 'b> {
-    fn leftmost(expression: &'b Expression<'a>) -> Self {
+    pub fn leftmost(expression: &'b Expression<'a>) -> Self {
         let mut current: Self = expression.into();
         loop {
             match current.left_expression() {
@@ -759,6 +760,14 @@ impl<'a, 'b> ExpressionLeftSide<'a, 'b> {
                 SimpleAssignmentTarget::PrivateFieldExpression(expr) => Some((&expr.object).into()),
                 SimpleAssignmentTarget::AssignmentTargetIdentifier(identifier_reference) => None,
             },
+        }
+    }
+
+    pub fn span(&self) -> Span {
+        match self {
+            ExpressionLeftSide::Expression(expression) => expression.span(),
+            ExpressionLeftSide::AssignmentTarget(target) => target.span(),
+            ExpressionLeftSide::SimpleAssignmentTarget(target) => target.span(),
         }
     }
 }
