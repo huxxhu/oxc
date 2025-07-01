@@ -4,7 +4,8 @@ use crate::{
     format_args,
     formatter::{
         Buffer, Comments, Format, FormatError, FormatResult, Formatter,
-        buffer::RemoveSoftLinesBuffer, prelude::*, trivia::format_trailing_comments,
+        buffer::RemoveSoftLinesBuffer, comments::has_new_line_backward, prelude::*,
+        trivia::format_trailing_comments,
     },
     generated::ast_nodes::{AstNode, AstNodes},
     options::FormatTrailingCommas,
@@ -152,10 +153,19 @@ impl<'a> Format<'a> for FormatJsArrowFunctionExpression<'a, '_> {
                             true
                         }
                         Expression::JSXElement(_) | Expression::JSXFragment(_) => true,
-                        Expression::TemplateLiteral(literal) => {
-                            false
-                            // TODO:
-                            // is_multiline_template_starting_on_same_line
+                        Expression::TemplateLiteral(template) => {
+                            is_multiline_template_starting_on_same_line(
+                                template.span.start,
+                                template,
+                                f.source_text(),
+                            )
+                        }
+                        Expression::TaggedTemplateExpression(template) => {
+                            is_multiline_template_starting_on_same_line(
+                                template.span.start,
+                                &template.quasi,
+                                f.source_text(),
+                            )
                         }
                         _ => false,
                     }
@@ -343,6 +353,41 @@ impl<'a, 'b> ArrowFunctionLayout<'a, 'b> {
         let has_type_and_parameters = arrow.return_type.is_some() && has_parameters;
         has_type_and_parameters || has_rest_object_or_array_parameter(parameters)
     }
+}
+
+/// Returns `true` for a template that starts on the same line as the previous token and contains a line break.
+///
+///
+/// # Examples
+///
+/// ```javascript
+/// "test" + `
+///   some content
+/// `;
+/// ```
+///
+/// Returns `true` because the template starts on the same line as the `+` token and its text contains a line break.
+///
+/// ```javascript
+/// "test" + `no line break`
+/// ```
+///
+/// Returns `false` because the template text contains no line break.
+///
+/// ```javascript
+/// "test" +
+///     `template
+///     with line break`;
+/// ```
+///
+/// Returns `false` because the template isn't on the same line as the '+' token.
+pub fn is_multiline_template_starting_on_same_line(
+    start: u32,
+    template: &TemplateLiteral,
+    source_text: &str,
+) -> bool {
+    template.quasis.iter().any(|quasi| quasi.value.raw.contains('\n'))
+        && !has_new_line_backward(&source_text[..start as usize])
 }
 
 struct ArrowChain<'a, 'b> {

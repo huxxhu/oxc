@@ -1,4 +1,4 @@
-js compatibility: 372/699 (53.22%)
+js compatibility: 378/699 (54.08%)
 
 # Failed
 
@@ -14,7 +14,6 @@ js compatibility: 372/699 (53.22%)
 | js/arrows/issue-1389-curry.js | 💥💥 | 86.96% |
 | js/arrows/parens.js | 💥💥 | 93.10% |
 | js/arrows/semi/semi.js | 💥✨ | 0.00% |
-| js/assignment/call-with-template.js | 💥 | 70.00% |
 | js/assignment/destructuring-array.js | 💥 | 0.00% |
 | js/assignment/destructuring-heuristic.js | 💥 | 39.02% |
 | js/assignment/issue-10218.js | 💥 | 52.63% |
@@ -22,7 +21,6 @@ js compatibility: 372/699 (53.22%)
 | js/assignment/issue-15534.js | 💥 | 30.77% |
 | js/assignment/issue-2482-2.js | 💥 | 62.50% |
 | js/assignment/issue-7572.js | 💥 | 72.73% |
-| js/assignment/lone-arg.js | 💥 | 85.00% |
 | js/assignment/sequence.js | 💥 | 71.43% |
 | js/assignment-comments/function.js | 💥 | 74.47% |
 | js/async/inline-await.js | 💥 | 25.00% |
@@ -244,13 +242,9 @@ js compatibility: 372/699 (53.22%)
 | js/strings/template-literals.js | 💥💥 | 52.24% |
 | js/switch/comments.js | 💥 | 90.37% |
 | js/switch/comments2.js | 💥 | 84.21% |
-| js/template/arrow.js | 💥 | 62.50% |
-| js/template/call.js | 💥 | 57.14% |
 | js/template/comment.js | 💥 | 23.08% |
-| js/template/faulty-locations.js | 💥 | 89.66% |
-| js/template/graphql.js | 💥 | 72.73% |
+| js/template/graphql.js | 💥 | 81.25% |
 | js/template/indent.js | 💥 | 85.71% |
-| js/template/inline.js | 💥 | 84.21% |
 | js/template/parenthesis.js | 💥 | 83.33% |
 | js/template-align/indent.js | 💥💥 | 46.05% |
 | js/template-literals/binary-exporessions.js | 💥 | 0.00% |

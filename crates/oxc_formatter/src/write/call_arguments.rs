@@ -22,7 +22,10 @@ use crate::{
         write_arguments_multi_line,
     },
     write,
-    write::parameter_list::has_only_simple_parameters,
+    write::{
+        arrow_function_expression::is_multiline_template_starting_on_same_line,
+        parameter_list::has_only_simple_parameters,
+    },
 };
 
 use super::{
@@ -56,17 +59,18 @@ impl<'a> Format<'a> for AstNode<'a, ArenaVec<'a, Argument<'a>>> {
                 (false, false)
             };
 
-        let is_first_arg_string_literal_or_template = if self.len() == 2 {
-            matches!(
+        let is_first_arg_string_literal_or_template = self.len() != 2
+            || matches!(
                 self.as_ref().first(),
-                Some(Argument::StringLiteral(_) | Argument::TemplateLiteral(_))
-            )
-        } else {
-            true
-        };
+                Some(
+                    Argument::StringLiteral(_)
+                        | Argument::TemplateLiteral(_)
+                        | Argument::TaggedTemplateExpression(_)
+                )
+            );
 
         if is_commonjs_or_amd_call
-            // || is_multiline_template_only_args(node)
+            || is_multiline_template_only_args(self, f.source_text())
             || is_react_hook_with_deps_array(self, f.comments())
             || (is_test_call && is_first_arg_string_literal_or_template)
         {
@@ -1037,6 +1041,27 @@ fn is_commonjs_or_amd_call(
             } else {
                 false
             }
+        }
+        _ => false,
+    }
+}
+
+/// Returns `true` if `arguments` contains a single [multiline template literal argument that starts on its own ](is_multiline_template_starting_on_same_line).
+fn is_multiline_template_only_args(arguments: &[Argument], source_text: &str) -> bool {
+    if arguments.len() != 1 {
+        return false;
+    }
+
+    match arguments.first().unwrap() {
+        Argument::TemplateLiteral(template) => {
+            is_multiline_template_starting_on_same_line(template.span.start, template, source_text)
+        }
+        Argument::TaggedTemplateExpression(template) => {
+            is_multiline_template_starting_on_same_line(
+                template.span.start,
+                &template.quasi,
+                source_text,
+            )
         }
         _ => false,
     }

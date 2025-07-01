@@ -271,7 +271,7 @@ ts compatibility: 219/573 (38.22%)
 | typescript/method-chain/comment.ts | 💥 | 0.00% |
 | typescript/module/global.ts | 💥 | 75.00% |
 | typescript/module/namespace_function.ts | 💥 | 66.67% |
-| typescript/multiparser-css/issue-6259.ts | 💥 | 15.38% |
+| typescript/multiparser-css/issue-6259.ts | 💥 | 57.14% |
 | typescript/new/new-signature.ts | 💥 | 93.85% |
 | typescript/no-semi/no-semi.ts | 💥✨ | 45.45% |
 | typescript/no-semi/non-null.ts | 💥💥 | 66.67% |
