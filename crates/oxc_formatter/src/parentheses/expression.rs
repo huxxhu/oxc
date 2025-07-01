@@ -610,28 +610,36 @@ fn is_first_in_statement(
             | AstNodes::TSAsExpression(_)
             | AstNodes::TSSatisfiesExpression(_)
             | AstNodes::TSNonNullExpression(_) => {}
-            AstNodes::SequenceExpression(sequence)
-                if sequence.expressions.first().unwrap().span() != current_span =>
-            {
-                break;
+            AstNodes::SequenceExpression(sequence) => {
+                if sequence.expressions.first().unwrap().span() != current_span {
+                    break;
+                }
             }
-            AstNodes::ComputedMemberExpression(member) if member.object.span() != current_span => {
-                break;
+            AstNodes::ComputedMemberExpression(member) => {
+                if member.object.span() != current_span {
+                    break;
+                }
             }
-            AstNodes::AssignmentExpression(assignment)
-                if assignment.left.span() != current_span =>
-            {
-                break;
+            AstNodes::AssignmentExpression(assignment) => {
+                if assignment.left.span() != current_span {
+                    break;
+                }
             }
-            AstNodes::ConditionalExpression(conditional)
-                if conditional.test.span() != current_span =>
-            {
-                break;
+            AstNodes::ConditionalExpression(conditional) => {
+                if conditional.test.span() != current_span {
+                    break;
+                }
             }
-            AstNodes::BinaryExpression(binary) if binary.left.span() != current.span() => {
-                break;
+            AstNodes::BinaryExpression(binary) => {
+                if binary.left.span() != current.span() {
+                    break;
+                }
             }
-            AstNodes::BinaryExpression(binary) if binary.left.span() != current.span() => break,
+            AstNodes::LogicalExpression(logical) => {
+                if logical.left.span() != current.span() {
+                    break;
+                }
+            }
             AstNodes::ExportDefaultDeclaration(_)
                 if mode == FirstInStatementMode::ExpressionOrExportDefault =>
             {

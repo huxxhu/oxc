@@ -1,4 +1,4 @@
-js compatibility: 378/699 (54.08%)
+js compatibility: 381/699 (54.51%)
 
 # Failed
 
@@ -12,7 +12,6 @@ js compatibility: 378/699 (54.08%)
 | js/arrows/curried.js | 💥💥 | 92.55% |
 | js/arrows/currying-4.js | 💥💥 | 86.67% |
 | js/arrows/issue-1389-curry.js | 💥💥 | 86.96% |
-| js/arrows/parens.js | 💥💥 | 93.10% |
 | js/arrows/semi/semi.js | 💥✨ | 0.00% |
 | js/assignment/destructuring-array.js | 💥 | 0.00% |
 | js/assignment/destructuring-heuristic.js | 💥 | 39.02% |
@@ -54,10 +53,8 @@ js compatibility: 378/699 (54.08%)
 | js/class-static-block/with-line-breaks.js | 💥 | 50.00% |
 | js/classes/assignment.js | 💥 | 81.25% |
 | js/classes/binary.js | 💥 | 0.00% |
-| js/classes/member.js | 💥 | 50.00% |
 | js/classes/method.js | 💥 | 71.43% |
 | js/classes/property.js | 💥 | 54.55% |
-| js/classes/ternary.js | 💥 | 0.00% |
 | js/classes-private-fields/with_comments.js | 💥💥 | 30.77% |
 | js/comments/15661.js | 💥💥 | 46.15% |
 | js/comments/16398.js | 💥💥 | 80.00% |

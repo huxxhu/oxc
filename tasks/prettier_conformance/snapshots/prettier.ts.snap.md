@@ -275,7 +275,7 @@ ts compatibility: 219/573 (38.22%)
 | typescript/new/new-signature.ts | 💥 | 93.85% |
 | typescript/no-semi/no-semi.ts | 💥✨ | 45.45% |
 | typescript/no-semi/non-null.ts | 💥💥 | 66.67% |
-| typescript/non-null/braces.ts | 💥 | 82.35% |
+| typescript/non-null/braces.ts | 💥 | 94.12% |
 | typescript/non-null/optional-chain.ts | 💥 | 72.22% |
 | typescript/non-null/parens.ts | 💥 | 80.00% |
 | typescript/nosemi/index-signature.ts | 💥 | 75.00% |
