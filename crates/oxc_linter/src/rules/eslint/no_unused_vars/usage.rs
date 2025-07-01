@@ -847,7 +847,15 @@ impl<'a> Symbol<'_, 'a> {
         loop {
             node = match node.kind() {
                 AstKind::TSTypeQuery(_) => return true,
-                AstKind::TSQualifiedName(_) | AstKind::TSTypeName(_) => {
+                // TODO, this was TSTypeName, this is probably wrong
+                AstKind::IdentifierReference(_) => {
+                    let Some(parent) = self.nodes().parent_node(node.id()) else {
+                        debug_assert!(false);
+                        return false;
+                    };
+                    parent
+                }
+                AstKind::TSQualifiedName(_) => {
                     if let Some(parent) = self.nodes().parent_node(node.id()) {
                         parent
                     } else {
